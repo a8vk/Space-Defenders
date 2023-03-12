@@ -16,7 +16,7 @@ def run():
     while True:
         controls.events(screen, gun, bullets)
         gun.update_gun()
-        bullets.update()
         controls.update(bg_color, screen, gun, bullets)
+        controls.update_bullets(bullets)
 
 run()
