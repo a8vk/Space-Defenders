@@ -1,9 +1,10 @@
-import  pygame
+import pygame
+
 
 class Gun():
 
     def __init__(self, screen):
-        """инициализация пушки"""
+        """Инициализация пушки"""
 
         self.screen = screen
         self.image = pygame.image.load('images/pushka.png')
@@ -16,14 +17,18 @@ class Gun():
         self.mleft = False
 
     def output(self):
-        """рисование пушки"""
+        """Рисование пушки"""
         self.screen.blit(self.image, self.rect)
 
     def update_gun(self):
-        """обновление позиции пушки"""
+        """Обновление позиции пушки"""
         if self.mright and self.rect.right < self.screen_rect.right:
             self.center += 1.5
         if self.mleft and self.rect.left > 0:
             self.center -= 1.5
 
         self.rect.centerx = self.center
+
+    def create_gun(self):
+        """Размещает пушку по центру внизу"""
+        self.center = self.screen_rect.centerx

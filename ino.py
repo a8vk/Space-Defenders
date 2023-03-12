@@ -1,4 +1,5 @@
-import  pygame
+import pygame
+
 
 class Ino(pygame.sprite.Sprite):
     """класс одного пришельца"""
@@ -20,5 +21,5 @@ class Ino(pygame.sprite.Sprite):
 
     def update(self):
         """перемещает пришельцев"""
-        self.y  += 0.1
+        self.y += 0.1
         self.rect.y = self.y

@@ -1,10 +1,12 @@
 import pygame
 import sys
+import time
 from bullet import Bullet
 from ino import Ino
 
+
 def events(screen, gun, bullets):
-    """обработка событий"""
+    """Обработка событий"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -27,8 +29,9 @@ def events(screen, gun, bullets):
             elif event.key == pygame.K_a:
                 gun.mleft = False
 
+
 def update(bg_color, screen, gun, inos, bullets):
-    """обновление экрана"""
+    """Обновление экрана"""
     screen.fill(bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
@@ -36,19 +39,35 @@ def update(bg_color, screen, gun, inos, bullets):
     inos.draw(screen)
     pygame.display.flip()
 
-def update_bullets(bullets):
-    """обновлять позиции пуль"""
+
+def update_bullets(inos, bullets):
+    """Обновлять позиции пуль"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+    collisions = pygame.sprite.groupcollide(bullets, inos, True, True)
 
-def update_inos(inos):
-    """обновляет позицию пришельце"""
+
+def gun_kill(stats, screen, gun, inos, bullets):
+    """Столкновение пушки и армии"""
+    stats.guns_left -= 1
+    inos.empty()
+    bullets.empty()
+    create_army(screen, inos)
+    gun.create_gun()
+    time.sleep(2)
+
+
+def update_inos(stats, screen, gun, inos, bullets):
+    """Обновляет позицию пришельце"""
     inos.update()
+    if pygame.sprite.spritecollideany(gun, inos):
+        gun_kill(stats, screen, gun, inos, bullets)
+
 
 def create_army(screen, inos):
-    """создание армии пришельцев"""
+    """Создание армии пришельцев"""
     ino = Ino(screen)
     ino_width = ino.rect.width
     numbers_ino_x = int((700 - 2 * ino_width) / ino_width)
