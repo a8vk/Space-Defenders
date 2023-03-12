@@ -1,6 +1,7 @@
 import pygame
 import sys
 from bullet import Bullet
+from ino import Ino
 
 def events(screen, gun, bullets):
     """обработка событий"""
@@ -26,13 +27,13 @@ def events(screen, gun, bullets):
             elif event.key == pygame.K_a:
                 gun.mleft = False
 
-def update(bg_color, screen, gun, ino, bullets):
+def update(bg_color, screen, gun, inos, bullets):
     """обновление экрана"""
     screen.fill(bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.output()
-    ino.draw()
+    inos.draw(screen)
     pygame.display.flip()
 
 def update_bullets(bullets):
@@ -41,3 +42,24 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+
+def update_inos(inos):
+    """обновляет позицию пришельце"""
+    inos.update()
+
+def create_army(screen, inos):
+    """создание армии пришельцев"""
+    ino = Ino(screen)
+    ino_width = ino.rect.width
+    numbers_ino_x = int((700 - 2 * ino_width) / ino_width)
+    ino_height = ino.rect.height
+    numbers_ino_y = int((800 - 100 - 2 * ino_height) / ino_height)
+
+    for row_numer in range(numbers_ino_y-3):
+        for ino_number in range(numbers_ino_x):
+            ino = Ino(screen)
+            ino.x = ino_width + (ino_width * ino_number)
+            ino.y = ino_height + (ino_height * row_numer)
+            ino.rect.x = ino.x
+            ino.rect.y = ino.rect.height + (ino.rect.height * row_numer)
+            inos.add(ino)
