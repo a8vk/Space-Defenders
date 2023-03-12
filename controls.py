@@ -40,13 +40,16 @@ def update(bg_color, screen, gun, inos, bullets):
     pygame.display.flip()
 
 
-def update_bullets(inos, bullets):
+def update_bullets(screen, inos, bullets):
     """Обновлять позиции пуль"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     collisions = pygame.sprite.groupcollide(bullets, inos, True, True)
+    if len(inos) == 0:
+        bullets.empty()
+        create_army(screen, inos)
 
 
 def gun_kill(stats, screen, gun, inos, bullets):
@@ -56,7 +59,7 @@ def gun_kill(stats, screen, gun, inos, bullets):
     bullets.empty()
     create_army(screen, inos)
     gun.create_gun()
-    time.sleep(2)
+    time.sleep(1)
 
 
 def update_inos(stats, screen, gun, inos, bullets):
@@ -64,7 +67,16 @@ def update_inos(stats, screen, gun, inos, bullets):
     inos.update()
     if pygame.sprite.spritecollideany(gun, inos):
         gun_kill(stats, screen, gun, inos, bullets)
+    inos_check(stats, screen, gun, inos, bullets)
 
+
+def inos_check(stats, screen, gun, inos, bullets):
+    """проверка добралась ли армия до края экрана"""
+    screen_rect = screen.get_rect()
+    for ino in inos.sprites():
+        if ino.rect.bottom >= screen_rect.bottom:
+            gun_kill(stats, screen, gun, inos, bullets)
+            break
 
 def create_army(screen, inos):
     """Создание армии пришельцев"""
