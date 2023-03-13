@@ -30,9 +30,10 @@ def events(screen, gun, bullets):
                 gun.mleft = False
 
 
-def update(bg_color, screen, gun, inos, bullets):
+def update(bg_color, screen, stats, sc, gun, inos, bullets):
     """Обновление экрана"""
     screen.fill(bg_color)
+    sc.show_score()
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     gun.output()
@@ -40,15 +41,19 @@ def update(bg_color, screen, gun, inos, bullets):
     pygame.display.flip()
 
 
-def update_bullets(screen, inos, bullets):
+def update_bullets(screen, stats, sc, inos, bullets):
     """Обновлять позиции пуль"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     collisions = pygame.sprite.groupcollide(bullets, inos, True, True)
+    if collisions:
+        for inos in collisions.values():
+            stats.score += 10 * len(inos)
+        sc.image_score()
     if len(inos) == 0:
-        bullets.empty()
+        bullets.empty() 
         create_army(screen, inos)
 
 

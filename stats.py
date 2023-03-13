@@ -9,3 +9,4 @@ class Stats():
     def reset_stats(self):
         """Статистика изменяющаяся во время игры"""
         self.guns_left = 2
+        self.score = 0
