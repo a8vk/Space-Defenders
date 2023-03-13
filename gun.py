@@ -1,7 +1,7 @@
 import pygame
 
 
-class Gun():
+class Gun:
 
     def __init__(self, screen):
         """Инициализация пушки"""
