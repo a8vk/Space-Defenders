@@ -81,12 +81,13 @@ def update_inos(stats, screen, gun, inos, bullets):
 
 
 def inos_check(stats, screen, gun, inos, bullets):
-    """проверка добралась ли армия до края экрана"""
+    """Проверка добралась ли армия до края экрана"""
     screen_rect = screen.get_rect()
     for ino in inos.sprites():
         if ino.rect.bottom >= screen_rect.bottom:
             gun_kill(stats, screen, gun, inos, bullets)
             break
+
 
 def create_army(screen, inos):
     """Создание армии пришельцев"""
@@ -105,8 +106,11 @@ def create_army(screen, inos):
             ino.rect.y = ino.rect.height + (ino.rect.height * row_numer)
             inos.add(ino)
 
+
 def check_high_score(stats, sc):
     """Проверка новых рекордов"""
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         sc.image_high_score()
+        with open('highscore.txt', 'w') as f:
+            f.write(str(stats.high_score))
