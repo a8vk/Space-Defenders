@@ -24,7 +24,7 @@ def run():
             gun.update_gun()
             controls.update(bg_color, screen, stats, sc, gun, inos, bullets)
             controls.update_bullets(screen, stats, sc,  inos, bullets)
-            controls.update_inos(stats, screen, gun, inos, bullets)
+            controls.update_inos(stats, screen, sc, gun, inos, bullets)
 
 
 run()
