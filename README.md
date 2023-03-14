@@ -7,6 +7,6 @@ Earn points.
 Only 3 lives.
 
 Cannon control
-left key <A> 
-right key <D> 
-shoot key <SPACE>
+left key A 
+right key D 
+shoot key SPACE
